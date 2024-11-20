@@ -35,6 +35,7 @@ module hubResourceGroup 'br/public:avm/res/resources/resource-group:0.4.0' = {
 }
 
 module networkWatcher 'br/public:avm/res/network/network-watcher:0.3.0' = {
+  dependsOn: [hubResourceGroup]
   scope: resourceGroup(resourceGroupName)
   name: 'networkWatcher-${uniqueString(deployment().name, location, networkWatcherName)}'
   params: {
@@ -44,6 +45,7 @@ module networkWatcher 'br/public:avm/res/network/network-watcher:0.3.0' = {
 }
 
 module workspace 'br/public:avm/res/operational-insights/workspace:0.9.0' = {
+  dependsOn: [hubResourceGroup]
   scope: resourceGroup(resourceGroupName)
   name: 'logAnalyticsWorkspace-${uniqueString(deployment().name, location, logAnalyticsWorkspaceName)}'
   params: {
@@ -224,6 +226,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.0' = {
 
 module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
   for (privateDnsZone, i) in privateLinkDnsZones: {
+    dependsOn: [hubResourceGroup]
     scope: resourceGroup(resourceGroupName)
     name: 'privateDnsZones-${i}-${uniqueString(deployment().name, location, virtualNetworkName)}'
     params: {
@@ -234,6 +237,7 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 ]
 
 module applicationGatewayWebApplicationFirewallPolicy 'br/public:avm/res/network/application-gateway-web-application-firewall-policy:0.1.0' = {
+  dependsOn: [hubResourceGroup]
   scope: resourceGroup(resourceGroupName)
   name: 'applicationGatewayWebApplicationFirewallPolicy-${uniqueString(deployment().name, location,  wafPolicyName )}'
   params: {
@@ -251,6 +255,7 @@ module applicationGatewayWebApplicationFirewallPolicy 'br/public:avm/res/network
 }
 
 module publicIpAddress 'br/public:avm/res/network/public-ip-address:0.7.0' = {
+  dependsOn: [hubResourceGroup]
   scope: resourceGroup(resourceGroupName)
   name: 'applicationGatewayWebApplicationPublicIpAddress-${uniqueString(deployment().name, location,  wafPublicIpName )}'
   params: {
@@ -319,6 +324,12 @@ module applicationGateway 'br/public:avm/res/network/application-gateway:0.5.0' 
           priority: rule.priority
           ruleType: rule.ruleType
         }
+      }
+    ]
+    diagnosticSettings: [
+      {
+        name: '${wafName}-${diagsSuffix}'
+        workspaceResourceId: workspace.outputs.resourceId
       }
     ]
   }
