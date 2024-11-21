@@ -1,5 +1,4 @@
 targetScope = 'subscription'
-//APIM
 
 param location string
 
@@ -29,6 +28,10 @@ param apimRoutes array
 param virtualNetworkName string
 
 param virtualNetworkSettings object
+
+param apimName string
+param publisherEmail string = 'apimgmt-noreply@mail.windowsazure.com'
+param publisherName string = 'az-api-mgmt-001'
 
 var diagsSuffix = 'diags'
 
@@ -133,6 +136,44 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.0' = {
       {
         name: '${virtualNetworkName}-${diagsSuffix}'
         workspaceResourceId: hubLogAnalyticsWorkspaceId
+      }
+    ]
+  }
+}
+
+module apim 'br/public:avm/res/api-management/service:0.6.0' = {
+  scope: resourceGroup(apimResourceGroupName)
+  name: 'apim-${uniqueString(deployment().name, location, virtualNetworkName)}'
+  params: {
+    name: apimName
+    publisherEmail: publisherEmail
+    publisherName: publisherName
+    location: location
+    sku: 'Developer'
+    virtualNetworkType: 'Internal'
+    subnetResourceId: virtualNetwork.outputs.subnetResourceIds[0]
+    diagnosticSettings: [
+      {
+        name: '${apimName}-app-${diagsSuffix}'
+        workspaceResourceId: workspace.outputs.resourceId
+        logCategoriesAndGroups: []
+        metricCategories: [
+          {
+            category: 'AllMetrics'
+            enabled: true
+          }
+        ]
+      }
+      {
+        name: '${apimName}-audit-${diagsSuffix}'
+        workspaceResourceId: hubLogAnalyticsWorkspaceId
+        logCategoriesAndGroups: [
+          {
+            categoryGroup: 'Audit'
+            enabled: true
+          }
+        ]
+        metricCategories: []
       }
     ]
   }
