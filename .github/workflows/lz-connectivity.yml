@@ -1,0 +1,64 @@
+name: Demo Reusable Bicep Template Deployment
+
+on:
+  workflow_dispatch:
+
+env:
+  template_folder_path: bicep/patterns/connectivity-landing-zone # path to directory containing bicep template
+  template_file_name: connectivity.bicep # name of the bicep template file including extension
+  parameter_file_path: bicep/connectivity.bicepparam # path to bicep template parameter file
+  location: "australiaeast" # location for resource deployment in azure
+  subscription_id: "<enter-sub-id>" # azure subscription id (not required for tenant level deployments)
+  oidc_app_reg_client_id: "<enter-app-reg-id>" # client id of the azure application registration used to authenticate to azure using oidc, refer to https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions
+  azure_tenant_id: "<enter-tenant-id>" # azure ad tenant/directory id
+  environment: "demo" # name of the github environment
+  deployment_name: "deploy_lz_connectivity" # name of the arm deployment"
+
+jobs:
+  initialise_vars:
+    runs-on: ubuntu-latest
+    outputs:
+      template_folder_path: ${{ env.template_folder_path }}
+      template_file_name: ${{ env.template_file_name }}
+      parameter_file_path: ${{ env.parameter_file_path }}
+      location: ${{ env.location }}
+      subscription_id: ${{ env.subscription_id }}
+      oidc_app_reg_client_id: ${{ env.oidc_app_reg_client_id }}
+      azure_tenant_id: ${{ env.azure_tenant_id }}
+      environment: ${{ env.environment }}
+      deployment_name: ${{ env.deployment_name }}
+    steps:
+      - name: Initialise Variables
+        run: echo "Initialising environment variables"
+
+  build_and_validate:
+    needs: initialise_vars
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/build.yml
+    with:
+      test_trigger: ${{ github.event_name }}
+      template_file_path: ${{ needs.initialise_vars.outputs.template_folder_path }}/${{ needs.initialise_vars.outputs.template_file_name }}
+      parameter_file_path: ${{ needs.initialise_vars.outputs.parameter_file_path }}
+      oidc_app_reg_client_id: ${{ needs.initialise_vars.outputs.oidc_app_reg_client_id }}
+      azure_tenant_id: ${{ needs.initialise_vars.outputs.azure_tenant_id }}
+      location: ${{ needs.initialise_vars.outputs.location }}
+      subscription_id: ${{ needs.initialise_vars.outputs.subscription_id }}
+      deployment_name: ${{ needs.initialise_vars.outputs.deployment_name }}
+
+  deploy:
+    needs: [initialise_vars, build_and_validate]
+    if: ${{ github.ref == 'refs/heads/main' }}
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: ${{ needs.initialise_vars.outputs.environment }}
+      location: ${{ needs.initialise_vars.outputs.location }}
+      subscription_id: ${{ needs.initialise_vars.outputs.subscription_id }}
+      template_file_name: ${{ needs.initialise_vars.outputs.template_file_name }}
+      deployment_name: ${{ needs.initialise_vars.outputs.deployment_name }}
+      oidc_app_reg_client_id: ${{ needs.initialise_vars.outputs.oidc_app_reg_client_id }}
+      azure_tenant_id: ${{ needs.initialise_vars.outputs.azure_tenant_id }}

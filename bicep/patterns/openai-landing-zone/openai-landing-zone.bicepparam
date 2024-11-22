@@ -25,17 +25,18 @@ param virtualNetworkSettings = {
     }
   ]
 }
+param userAssignedIdentityName = 'openai-ae-smooth-ai-id'
 param openaiDnsZoneResourceId = '<insert_hub_openai_private_dns_zone_resource_id>'
 param openaiSettings = [
   {
-    name: 'smooth-ai-lz-03'
-    kind: 'AIServices'
-    customSubDomainName: 'smooth-ai-lz-03'
+    name: 'smooth-ai-lz-01'
+    kind: 'OpenAI'
+    customSubDomainName: 'smooth-ai-lz-01'
     deployments: [
       {
         model: {
           format: 'OpenAI'
-          name: 'gpt-4'
+          name: 'gpt-4-32k'
           version: '0613'
         }
         name: 'gpt-4-32k'
