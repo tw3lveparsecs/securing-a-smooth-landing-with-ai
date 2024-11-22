@@ -144,4 +144,4 @@ param virtualNetworkSettings = {
     }
   ]
 }
-param apimName = 'shared-ae-apim-03'
+param apimName = 'smooth-ai-ae-apim-01'
