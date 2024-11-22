@@ -35,7 +35,7 @@ param openaiSettings = [
       {
         model: {
           format: 'OpenAI'
-          name: 'gpt-4'
+          name: 'gpt-4-32k'
           version: '0613'
         }
         name: 'gpt-4-32k'
