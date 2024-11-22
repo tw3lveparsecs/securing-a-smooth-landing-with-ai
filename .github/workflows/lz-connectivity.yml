@@ -6,7 +6,7 @@ on:
 env:
   template_folder_path: bicep/patterns/connectivity-landing-zone # path to directory containing bicep template
   template_file_name: connectivity.bicep # name of the bicep template file including extension
-  parameter_file_path: bicep/connectivity.bicepparam # path to bicep template parameter file
+  parameter_file_path: bicep/patterns/connectivity.bicepparam # path to bicep template parameter file
   location: "australiaeast" # location for resource deployment in azure
   subscription_id: "200ef0b6-6c4f-4c21-a331-f8301096bac9" # azure subscription id (not required for tenant level deployments)
   oidc_app_reg_client_id: "ead70b82-eac7-46ab-91be-82e42b63df90" # client id of the azure application registration used to authenticate to azure using oidc, refer to https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions
