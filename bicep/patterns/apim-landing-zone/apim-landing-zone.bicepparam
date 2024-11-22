@@ -144,4 +144,4 @@ param virtualNetworkSettings = {
     }
   ]
 }
-param apimName = 'shared-ae-apim-01'
+param apimName = 'shared-ae-apim-03'

@@ -3,7 +3,7 @@ using './openai-landing-zone.bicep'
 param location = 'australiaeast'
 param networkResourceGroupName = 'smooth-landing-ai-openai-network-rg'
 param openaiResourceGroupName = 'smooth-landing-ai-openai-rg'
-param deployNetworkWatcher = true
+param deployNetworkWatcher = false
 param networkWatcherName = 'openai-ae-nw'
 param logAnalyticsWorkspaceName = 'openai-ae-law'
 param hubLogAnalyticsWorkspaceId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourcegroups/smooth-landing-ai-hub-rg/providers/microsoft.operationalinsights/workspaces/hub-ae-law'
