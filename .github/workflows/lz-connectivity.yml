@@ -1,4 +1,4 @@
-name: Demo Reusable Bicep Template Deployment
+name: Landing Zone - Connectivity
 
 on:
   workflow_dispatch:

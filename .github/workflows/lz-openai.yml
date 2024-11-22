@@ -1,4 +1,4 @@
-name: Demo Reusable Bicep Template Deployment
+name: Landing Zone - OpenAI
 
 on:
   workflow_dispatch:
