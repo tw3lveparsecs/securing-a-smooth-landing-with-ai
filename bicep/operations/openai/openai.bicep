@@ -1,6 +1,3 @@
-// openai x 2
-// private-endpoint
-
 targetScope = 'subscription'
 
 param location string
@@ -31,6 +28,8 @@ param openaiRoutes array
 param virtualNetworkName string
 
 param virtualNetworkSettings object
+
+param userAssignedIdentityName string
 
 param openaiDnsZoneResourceId string
 
@@ -144,6 +143,16 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.5.0' = {
   }
 }
 
+module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+  dependsOn: [openaiResourceGroup]
+  scope: resourceGroup(openaiResourceGroupName)
+  name: 'userAssignedIdentity-${uniqueString(deployment().name, location, userAssignedIdentityName)}'
+  params: {
+    name: userAssignedIdentityName
+    location: location
+  }
+}
+
 module openaiPrimary 'br/public:avm/res/cognitive-services/account:0.8.0' = [
   for (setting, i) in openaiSettings: {
     scope: resourceGroup(openaiResourceGroupName)
@@ -154,6 +163,11 @@ module openaiPrimary 'br/public:avm/res/cognitive-services/account:0.8.0' = [
       customSubDomainName: '${setting.customSubDomainName}-primary'
       deployments: setting.deployments
       location: location
+      managedIdentities: {
+        userAssignedResourceIds: [
+          userAssignedIdentity.outputs.resourceId
+        ]
+      }
       privateEndpoints: [
         {
           privateDnsZoneGroup: {
@@ -210,6 +224,11 @@ module openaiSecondary 'br/public:avm/res/cognitive-services/account:0.8.0' = [
       customSubDomainName: '${setting.customSubDomainName}-secondary'
       deployments: setting.deployments
       location: location
+      managedIdentities: {
+        userAssignedResourceIds: [
+          userAssignedIdentity.outputs.resourceId
+        ]
+      }
       privateEndpoints: [
         {
           privateDnsZoneGroup: {
