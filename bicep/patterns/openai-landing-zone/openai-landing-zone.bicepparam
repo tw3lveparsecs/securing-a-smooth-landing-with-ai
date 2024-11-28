@@ -29,9 +29,9 @@ param userAssignedIdentityName = 'openai-ae-smooth-ai-id'
 param openaiDnsZoneResourceId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourceGroups/smooth-landing-ai-hub-rg/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com'
 param openaiSettings = [
   {
-    name: 'smooth-ai-lz-01'
+    name: 'smooth-ai-lz-10'
     kind: 'OpenAI'
-    customSubDomainName: 'smooth-ai-lz-01'
+    customSubDomainName: 'smooth-ai-lz-10'
     deployments: [
       {
         model: {
