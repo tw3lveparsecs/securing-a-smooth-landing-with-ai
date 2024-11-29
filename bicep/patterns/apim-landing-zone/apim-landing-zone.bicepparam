@@ -3,11 +3,11 @@ using './apim-landing-zone.bicep'
 param location = 'australiaeast'
 param networkResourceGroupName = 'smooth-landing-ai-apim-network-rg'
 param apimResourceGroupName = 'smooth-landing-ai-apim-rg'
-param deployNetworkWatcher = true
+param deployNetworkWatcher = false
 param networkWatcherName = 'apim-ae-nw'
 param logAnalyticsWorkspaceName = 'apim-ae-law'
-param hubLogAnalyticsWorkspaceId = '<insert_hub_log_analytics_workspace_resource_id>'
-param hubVirtualNetworkId = '<insert_hub_virtual_network_resource_id>'
+param hubLogAnalyticsWorkspaceId = '<enter_log_analytics_workspace_resource_id>'
+param hubVirtualNetworkId = '<enter_hub_virtual_network_resource_id>'
 param apimNsgName = 'apim-ae-nsg'
 param apimNsgRules = [
   {
@@ -144,4 +144,4 @@ param virtualNetworkSettings = {
     }
   ]
 }
-param apimName = 'shared-ae-apim-01'
+param apimName = 'smooth-ai-ae-apim-01'

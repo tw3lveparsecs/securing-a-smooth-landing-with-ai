@@ -55,7 +55,7 @@ on:
 jobs:
   run_deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     environment:
       name: ${{ inputs.environment }}
     steps:

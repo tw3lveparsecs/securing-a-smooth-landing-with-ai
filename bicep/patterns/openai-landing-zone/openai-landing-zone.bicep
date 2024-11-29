@@ -1,6 +1,3 @@
-// openai x 2
-// private-endpoint
-
 targetScope = 'subscription'
 
 param location string
