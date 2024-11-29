@@ -6,8 +6,8 @@ param openaiResourceGroupName = 'smooth-landing-ai-openai-rg'
 param deployNetworkWatcher = false
 param networkWatcherName = 'openai-ae-nw'
 param logAnalyticsWorkspaceName = 'openai-ae-law'
-param hubLogAnalyticsWorkspaceId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourcegroups/smooth-landing-ai-hub-rg/providers/microsoft.operationalinsights/workspaces/hub-ae-law'
-param hubVirtualNetworkId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourceGroups/smooth-landing-ai-hub-rg/providers/Microsoft.Network/virtualNetworks/hub-ae-vnet'
+param hubLogAnalyticsWorkspaceId = '<enter_log_analytics_workspace_resource_id>'
+param hubVirtualNetworkId = '<enter_hub_virtual_network_resource_id>'
 param openaiNsgName = 'openai-ae-nsg'
 param openaiNsgRules = []
 param openaiRouteTableName = 'openai-ae-rt'
@@ -26,7 +26,7 @@ param virtualNetworkSettings = {
   ]
 }
 param userAssignedIdentityName = 'openai-ae-smooth-ai-id'
-param openaiDnsZoneResourceId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourceGroups/smooth-landing-ai-hub-rg/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com'
+param openaiDnsZoneResourceId = '<enter_dns_zone_resource_id>'
 param openaiSettings = [
   {
     name: 'smooth-ai-lz-10'

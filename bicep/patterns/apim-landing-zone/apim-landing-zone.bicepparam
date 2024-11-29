@@ -6,8 +6,8 @@ param apimResourceGroupName = 'smooth-landing-ai-apim-rg'
 param deployNetworkWatcher = false
 param networkWatcherName = 'apim-ae-nw'
 param logAnalyticsWorkspaceName = 'apim-ae-law'
-param hubLogAnalyticsWorkspaceId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourcegroups/smooth-landing-ai-hub-rg/providers/microsoft.operationalinsights/workspaces/hub-ae-law'
-param hubVirtualNetworkId = '/subscriptions/200ef0b6-6c4f-4c21-a331-f8301096bac9/resourceGroups/smooth-landing-ai-hub-rg/providers/Microsoft.Network/virtualNetworks/hub-ae-vnet'
+param hubLogAnalyticsWorkspaceId = '<enter_log_analytics_workspace_resource_id>'
+param hubVirtualNetworkId = '<enter_hub_virtual_network_resource_id>'
 param apimNsgName = 'apim-ae-nsg'
 param apimNsgRules = [
   {
